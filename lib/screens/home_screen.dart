@@ -10,8 +10,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final user = {
-    'name': 'Ahmed',
-    'avatar': 'https://api.a0.dev/assets/image?text=Ahmed&aspect=1:1',
+    'name': 'Moataz',
+    'avatar': 'https://api.a0.dev/assets/image?text=Moataz&aspect=1:1',
   };
 
   final List<Map<String, dynamic>> upcomingGames = [
@@ -61,8 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedIndex = index;
     });
-
-    // You can add more navigation logic here if needed
   }
 
   @override
@@ -74,16 +72,16 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 1,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text("Good morning,", style: TextStyle(fontSize: 14, color: Colors.grey)),
-            Text(user['name']!, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          children: const [
+            Text("Hi Moataz 👋", style: TextStyle(fontSize: 14, color: Colors.grey)),
+            Text("Ready to play today?", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ],
         ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: CircleAvatar(
-              backgroundImage: NetworkImage(user['avatar']!),
+              backgroundImage: NetworkImage('https://api.a0.dev/assets/image?text=Moataz&aspect=1:1'),
             ),
           )
         ],
@@ -97,15 +95,21 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _actionButton(Icons.sports_soccer, 'Join a Game'),
-                _actionButton(Icons.calendar_today, 'Book a Venue'),
-                _actionButton(Icons.search, 'Explore'),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, '/book-venue'),
+                  child: _actionButton(Icons.calendar_today, 'Book a Venue'),
+                ),
+                _actionButton(Icons.sports_soccer, 'Join a Match'),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, '/explore'),
+                  child: _actionButton(Icons.explore, 'Explore'),
+                ),
               ],
             ),
             const SizedBox(height: 20),
 
-            // Upcoming Games
-            _sectionHeader('Upcoming Games'),
+            // Recommended Matches
+            _sectionHeader('Recommended Matches'),
             ...upcomingGames.map((game) => _gameCard(game)).toList(),
 
             const SizedBox(height: 20),
@@ -132,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'Bookings'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications'),
         ],
       ),
     );

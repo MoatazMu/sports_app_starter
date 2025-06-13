@@ -1,145 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-class BookingScreen extends StatefulWidget {
+class BookingScreen extends StatelessWidget {
   const BookingScreen({super.key});
-
-  @override
-  State<BookingScreen> createState() => _BookingScreenState();
-}
-
-class _BookingScreenState extends State<BookingScreen> {
-  DateTime? startDate;
-  TimeOfDay? startTime;
-  int durationHours = 1;
-  String repeatOption = 'Never';
-  String endRepeatOption = 'Until Cancelled';
-  DateTime? endRepeatDate;
-  String whoCanJoin = 'Just Me';
-  List<String> selectedUsers = [];
-
-  final List<String> repeatOptions = [
-    'Never',
-    'Every Week',
-    'Every 2 Weeks',
-    'Every Month'
-  ];
-
-  final List<String> endRepeatOptions = [
-    'Until Cancelled',
-    'On a Date'
-  ];
-
-  final List<String> whoOptions = [
-    'Just Me',
-    'Anyone',
-    'Only Invited'
-  ];
-
-  final List<String> allUsers = [
-    'Ali', 'Sara', 'John', 'Lina', 'Ahmed', 'Emily'
-  ]; // Mock data
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Book a Game')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+      appBar: AppBar(
+        title: const Text("Start Booking"),
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Start Date & Time', style: TextStyle(fontWeight: FontWeight.bold)),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: _pickDate,
-                    child: Text(startDate == null
-                        ? 'Select Date'
-                        : DateFormat('yMMMd').format(startDate!)),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: _pickTime,
-                    child: Text(startTime == null
-                        ? 'Select Time'
-                        : startTime!.format(context)),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 16),
-            const Text('Duration (Hours)', style: TextStyle(fontWeight: FontWeight.bold)),
-            DropdownButton<int>(
-              value: durationHours,
-              items: List.generate(6, (i) => i + 1)
-                  .map((h) => DropdownMenuItem(value: h, child: Text('$h hr')))
-                  .toList(),
-              onChanged: (val) => setState(() => durationHours = val!),
-            ),
-            const SizedBox(height: 16),
-            const Text('Repeat', style: TextStyle(fontWeight: FontWeight.bold)),
-            DropdownButton<String>(
-              value: repeatOption,
-              items: repeatOptions
-                  .map((opt) => DropdownMenuItem(value: opt, child: Text(opt)))
-                  .toList(),
-              onChanged: (val) => setState(() => repeatOption = val!),
-            ),
-            const SizedBox(height: 16),
-            const Text('End Repeat', style: TextStyle(fontWeight: FontWeight.bold)),
-            DropdownButton<String>(
-              value: endRepeatOption,
-              items: endRepeatOptions
-                  .map((opt) => DropdownMenuItem(value: opt, child: Text(opt)))
-                  .toList(),
-              onChanged: (val) => setState(() => endRepeatOption = val!),
-            ),
-            if (endRepeatOption == 'On a Date')
-              ElevatedButton(
-                onPressed: _pickEndRepeatDate,
-                child: Text(endRepeatDate == null
-                    ? 'Select Date'
-                    : DateFormat('yMMMd').format(endRepeatDate!)),
-              ),
-            const SizedBox(height: 16),
-            const Text('Who Can Join?', style: TextStyle(fontWeight: FontWeight.bold)),
-            DropdownButton<String>(
-              value: whoCanJoin,
-              items: whoOptions
-                  .map((opt) => DropdownMenuItem(value: opt, child: Text(opt)))
-                  .toList(),
-              onChanged: (val) => setState(() => whoCanJoin = val!),
-            ),
-            if (whoCanJoin == 'Only Invited')
-              Wrap(
-                spacing: 8,
-                children: allUsers.map((user) {
-                  final isSelected = selectedUsers.contains(user);
-                  return FilterChip(
-                    label: Text(user),
-                    selected: isSelected,
-                    onSelected: (selected) {
-                      setState(() {
-                        if (selected) {
-                          selectedUsers.add(user);
-                        } else {
-                          selectedUsers.remove(user);
-                        }
-                      });
-                    },
-                  );
-                }).toList(),
-              ),
             const SizedBox(height: 32),
-            Center(
-              child: ElevatedButton(
-                onPressed: _submit,
-                child: const Text('Confirm Booking'),
-              ),
+            _bookingOption(
+              context,
+              icon: Icons.calendar_today,
+              title: "Book a Venue",
+              description: "Reserve a venue for your private match.",
+              routeName: '/book-venue', // Placeholder, to be created in next steps
+            ),
+            const SizedBox(height: 24),
+            _bookingOption(
+              context,
+              icon: Icons.sports_soccer,
+              title: "Host a Match",
+              description: "Create a public or private match.",
+              routeName: '/host-match', // Placeholder, to be created in next steps
+            ),
+            const SizedBox(height: 24),
+            const Divider(),
+            const SizedBox(height: 24),
+            TextButton(
+              onPressed: () {
+                // Optional: link to recent bookings or last match
+              },
+              child: const Text("Repeat Last Match"),
             )
           ],
         ),
@@ -147,52 +46,48 @@ class _BookingScreenState extends State<BookingScreen> {
     );
   }
 
-  void _pickDate() async {
-    final today = DateTime.now();
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: today,
-      firstDate: today,
-      lastDate: today.add(const Duration(days: 365)),
-    );
-    if (picked != null) {
-      setState(() => startDate = picked);
-    }
-  }
-
-  void _pickTime() async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-    if (picked != null) {
-      setState(() => startTime = picked);
-    }
-  }
-
-  void _pickEndRepeatDate() async {
-    final today = DateTime.now();
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: today,
-      firstDate: today,
-      lastDate: today.add(const Duration(days: 365)),
-    );
-    if (picked != null) {
-      setState(() => endRepeatDate = picked);
-    }
-  }
-
-  void _submit() {
-    if (startDate == null || startTime == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select date and time')),
-      );
-      return;
-    }
-    // Handle booking logic here
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Booking Confirmed!')),
+  Widget _bookingOption(BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String description,
+    required String routeName,
+  }) {
+    return InkWell(
+      onTap: () => Navigator.pushNamed(context, routeName),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.deepPurple.shade100),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(color: Colors.black12, blurRadius: 4),
+          ],
+        ),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 28,
+              backgroundColor: Colors.deepPurple.shade50,
+              child: Icon(icon, size: 28, color: Colors.deepPurple),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 4),
+                  Text(description,
+                      style: const TextStyle(color: Colors.grey)),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

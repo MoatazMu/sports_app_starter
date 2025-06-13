@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sports_app_starter/services/auth_service.dart';
-import 'profile_info_screen.dart';
 
 class OTPVerificationScreen extends StatefulWidget {
   final String phoneNumber;
@@ -18,7 +16,6 @@ class OTPVerificationScreen extends StatefulWidget {
 
 class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   final TextEditingController _codeController = TextEditingController();
-  final AuthService _authService = AuthService();
   bool _isVerifying = false;
   String? _error;
 
@@ -35,33 +32,34 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
       _error = null;
     });
 
-    final error = await _authService.signInWithOTP(
-      verificationId: widget.verificationId,
-      smsCode: code,
-    );
+    // Simulated API call or Firebase OTP logic
+    await Future.delayed(const Duration(seconds: 2));
 
-    if (error != null) {
-      setState(() {
-        _error = error;
-        _isVerifying = false;
-      });
+    final bool isExistingUser = widget.phoneNumber.endsWith('5'); // mock check
+
+    setState(() => _isVerifying = false);
+
+    if (isExistingUser) {
+      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
     } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const ProfileInfoScreen()),
-      );
+      Navigator.pushNamed(context, '/register', arguments: widget.phoneNumber);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Enter Verification Code")),
+      appBar: AppBar(
+        title: const Text('Verify OTP'),
+        backgroundColor: Colors.deepPurple,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Code sent to ${widget.phoneNumber}", style: const TextStyle(fontSize: 16)),
+            Text("Code sent to ${widget.phoneNumber}",
+                style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 12),
             TextField(
               controller: _codeController,
@@ -72,16 +70,22 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 16),
-            if (_error != null) Text(_error!, style: const TextStyle(color: Colors.red)),
-            const SizedBox(height: 12),
+            if (_error != null) ...[
+              const SizedBox(height: 8),
+              Text(_error!, style: const TextStyle(color: Colors.red)),
+            ],
+            const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: _isVerifying ? null : _verifyCode,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
                 child: _isVerifying
                     ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text("Verify"),
+                    : const Text("Verify", style: TextStyle(fontSize: 16)),
               ),
             ),
           ],
