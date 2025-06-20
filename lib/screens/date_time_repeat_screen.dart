@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DateTimeRepeatScreen extends StatefulWidget {
-  const DateTimeRepeatScreen({super.key});
+  final Map<String, dynamic> venue;
+
+  const DateTimeRepeatScreen({super.key, required this.venue});
 
   @override
   State<DateTimeRepeatScreen> createState() => _DateTimeRepeatScreenState();
@@ -20,9 +22,9 @@ class _DateTimeRepeatScreenState extends State<DateTimeRepeatScreen> {
   late Map<String, dynamic> selectedVenue;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    selectedVenue = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+  void initState() {
+    super.initState();
+    selectedVenue = widget.venue;
   }
 
   Future<void> _pickDateTime() async {

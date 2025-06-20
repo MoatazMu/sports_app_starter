@@ -61,6 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedIndex = index;
     });
+
+    if (index == 2) {
+      Navigator.pushNamed(context, '/notification');
+    }
   }
 
   @override
@@ -80,8 +84,13 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
-            child: CircleAvatar(
-              backgroundImage: NetworkImage('https://api.a0.dev/assets/image?text=Moataz&aspect=1:1'),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/user_profile');
+              },
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(user['avatar']!),
+              ),
             ),
           )
         ],

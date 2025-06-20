@@ -102,11 +102,15 @@ class VenueDetailsScreen extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
-  final result = await Navigator.pushNamed(context, '/date-time');
-  if (result != null) {
-    Navigator.pushNamed(context, '/invite');
-  }
-},
+                        final result = await Navigator.pushNamed(
+                          context,
+                          '/date-time',
+                          arguments: {'venue': venue},
+                        );
+                        if (result != null) {
+                          Navigator.pushNamed(context, '/invite');
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurple,
                         padding: const EdgeInsets.symmetric(vertical: 16),

@@ -1,59 +1,17 @@
 name: sports_app_starter
-description: "A sports platform for the UAE market."
-publish_to: 'none' # Prevents publishing to pub.dev
-
+description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0' # Ensures compatibility with Flutter SDK versions 3.x.x
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-
-  # --- UI and Icons ---
-  cupertino_icons: ^1.0.8              # Apple-style icons for iOS design
-  google_fonts: ^6.2.1                 # Easily use fonts from Google Fonts
-  material_color_utilities: ^0.11.1    # ✅ Fixed to match Flutter SDK requirement
-  flutter_svg: ^2.0.10+1               # Renders SVG files
-
-  # --- Advertising ---
-
-  # --- Firebase Core Services ---
-  firebase_core: ^3.1.0                # Core Firebase services
-  firebase_auth: ^5.1.0                # Firebase Authentication
-  cloud_firestore: ^5.1.0              # Firebase Firestore DB
-  google_sign_in: ^6.2.1               # Google Sign-In integration
-
-  # --- Utilities & Localizations ---
-  intl: ^0.20.2                        # Internationalization support
-  flutter_localizations:
-    sdk: flutter                       # Flutter's built-in localizations
-  http: ^1.2.1                         # HTTP requests
-  url_launcher: ^6.2.6                 # Launch URLs and apps
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter                       # Testing framework
-  flutter_lints: ^3.0.0                # Code linting rules
-  test: ^1.25.0                        # Dart test framework
+  cupertino_icons: ^1.0.2
+  cloud_firestore: ^5.0.0
+  firebase_core: ^3.14.0
+  firebase_auth: ^5.6.0
 
 flutter:
   uses-material-design: true
-
-  # To add assets (like images, icons, or data files), uncomment:
-  # assets:
-  #   - assets/images/
-  #   - assets/icons/
-  #   - assets/data/
-
-  # To add custom fonts, uncomment:
-  # fonts:
-  #   - family: Montserrat
-  #     fonts:
-  #       - asset: fonts/Montserrat-Regular.ttf
-  #       - asset: fonts/Montserrat-Bold.ttf
-  #         weight: 700
-  #   - family: OpenSans
-  #     fonts:
-  #       - asset: fonts/OpenSans-Regular.ttf

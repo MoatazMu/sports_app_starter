@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class InviteParticipantsScreen extends StatefulWidget {
-  const InviteParticipantsScreen({super.key});
+  InviteParticipantsScreen({super.key});
 
   @override
   State<InviteParticipantsScreen> createState() => _InviteParticipantsScreenState();

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ProfileInfoScreen extends StatefulWidget {
-  const ProfileInfoScreen({super.key});
+class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({super.key});
 
   @override
-  State<ProfileInfoScreen> createState() => _ProfileInfoScreenState();
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
-class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
+class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
@@ -44,7 +44,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Complete Your Profile")),
+      appBar: AppBar(title: const Text("Edit Profile")),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Form(
@@ -80,6 +80,25 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                 value: _gender,
                 onChanged: (value) => setState(() => _gender = value),
                 validator: (value) => value == null ? 'Select a gender' : null,
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: TextEditingController(text: '+971501234567'),
+                      decoration: const InputDecoration(labelText: 'Mobile Number'),
+                      readOnly: true,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/change_mobile');
+                    },
+                    child: const Text('Change'),
+                  ),
+                ],
               ),
               const SizedBox(height: 32),
               SizedBox(

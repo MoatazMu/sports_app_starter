@@ -23,21 +23,19 @@ class BookingStartScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             _actionTile(
+              context: context,
               icon: Icons.calendar_today,
               title: 'Book a Venue',
               subtitle: 'Find and reserve courts or fields',
-              onTap: () {
-                // TODO: Navigate to venue booking flow
-              },
+              routeName: '/book-venue',
             ),
             const SizedBox(height: 16),
             _actionTile(
+              context: context,
               icon: Icons.groups,
               title: 'Host a Match',
               subtitle: 'Organize a public or private game',
-              onTap: () {
-                // TODO: Navigate to host match screen
-              },
+              routeName: '/host',
             ),
             const SizedBox(height: 32),
             const Divider(),
@@ -61,13 +59,14 @@ class BookingStartScreen extends StatelessWidget {
   }
 
   Widget _actionTile({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required String subtitle,
-    required VoidCallback onTap,
+    required String routeName,
   }) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => Navigator.pushNamed(context, routeName),
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
